@@ -1,4 +1,4 @@
-FROM openjdk:17-jre-slim-buster
+FROM openjdk:17-jdk-slim
 
 WORKDIR /opt/Lavalink
 
