@@ -1,5 +1,5 @@
 server: # REST and WS server
-  port: 2333
+  port: 443
   address: 0.0.0.0
   http2:
     enabled: false # Whether to enable HTTP/2 support
@@ -57,7 +57,7 @@ lavalink:
     useSeekGhosting: true # Seek ghosting is the effect where whilst a seek is in progress, the audio buffer is read from until empty, or until seek is ready.
     youtubePlaylistLoadLimit: 6 # Number of pages at 100 each
     playerUpdateInterval: 5 # How frequently to send player updates to clients, in seconds
-    youtubeSearchEnabled: true
+    youtubeSearchEnabled: false
     soundcloudSearchEnabled: true
     gc-warnings: true
     #ratelimit:
@@ -67,8 +67,8 @@ lavalink:
       #searchTriggersFail: true # Whether a search 429 should trigger marking the ip as failing
       #retryLimit: -1 # -1 = use default lavaplayer value | 0 = infinity | >0 = retry will happen this numbers times
     youtubeConfig: # Required for avoiding all age restrictions by YouTube, some restricted videos still can be played without.
-      email: "okbhi649@gmail.com" # Email of Google account
-      password: "123@Lmao" # Password of Google account
+      #email: "o" # Email of Google account
+      #password: "" # Password of Google account
     #httpConfig: # Useful for blocking bad-actors from ip-grabbing your music node and attacking it, this way only the http proxy will be attacked
       #proxyHost: "localhost" # Hostname of the proxy, (ip or domain)
       #proxyPort: 3128 # Proxy port, 3128 is the default for squidProxy
