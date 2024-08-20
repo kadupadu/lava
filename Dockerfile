@@ -8,13 +8,10 @@ RUN apt-get update && apt-get install -y wget nano netplan.io iputils-ping curl
 RUN mkdir -p /etc/netplan
 
 # Create the 99-he-tunnel.yaml file and add the tunnel configuration
-RUN echo "network:\n  version: 2\n  tunnels:\n    he-ipv6:\n      mode: sit\n      remote: 216.218.226.238\n      local: 216.24.57.4\n      addresses:\n        - \"2001:470:a:9f::2/64\"\n      routes:\n        - to: default\n          via: \"2001:470:a:9f::1\"" > /etc/netplan/99-he-tunnel.yaml
+RUN echo "network:\n  version: 2\n  tunnels:\n    he-ipv6:\n      mode: sit\n      remote: 216.218.226.238\n      local: 216.24.57.4\n      addresses:\n        - \"2001:470:a:9f::2/64\"\n      routes:\n        - to: \"::/0\"\n          via: \"2001:470:a:9f::1\"" > /etc/netplan/99-he-tunnel.yaml
 
-# Apply the netplan configuration and try it
-RUN netplan try --timeout 10 || true
-
-# Reboot the container to apply the configuration (simulated by restarting networking services)
-RUN systemctl restart networking
+# Apply the netplan configuration
+RUN netplan apply
 
 # Enable non-local binding for IPv6
 RUN sysctl -w net.ipv6.ip_nonlocal_bind=1
