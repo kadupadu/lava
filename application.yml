@@ -19,8 +19,7 @@ plugins:
 #    another_key: another_value
 lavalink:
   plugins:
-    # Replace VERSION with the current version as shown by the Releases tab or a long commit hash for snapshots.
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.5.2"
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.6.0"
       snapshot: false # Set to true if you want to use a snapshot version.
      
 #  defaultPluginSnapshotRepository: "https://maven.lavalink.dev/snapshots" # optional, defaults to the Lavalink snapshot repository
@@ -65,7 +64,7 @@ lavalink:
       #searchTriggersFail: true # Whether a search 429 should trigger marking the ip as failing
       #retryLimit: -1 # -1 = use default lavaplayer value | 0 = infinity | >0 = retry will happen this numbers times
     youtubeConfig: # Required for avoiding all age restrictions by YouTube, some restricted videos still can be played without.
-      email: "okbhi" # Email of Google account
+      email: "" # Email of Google account
       password: "" # Password of Google account
     #httpConfig: # Useful for blocking bad-actors from ip-grabbing your music node and attacking it, this way only the http proxy will be attacked
       #proxyHost: "localhost" # Hostname of the proxy, (ip or domain)
@@ -86,22 +85,23 @@ sentry:
 #    another_key: another_value
 
 logging:
-  file:
-    path: ./logs/
-
   level:
+    # Set this to DEBUG to enable more detailed logging. Please note that this will log probably spam your console.
     root: INFO
-    lavalink: INFO
+    # Set this to DEBUG to enable more detailed logging from Lavalink
+    lavalink: DEBUG
+    # Set this to TRACE to see all WebSocket messages
+    lavalink.server.io.SocketContext: TRACE
+    # Log all track exceptions (COMMON, SUSPICIOUS & FAULT)
+    com.sedmelluq.discord.lavaplayer.tools.ExceptionTools: DEBUG
 
+  # This will log all requests to the REST API
   request:
     enabled: true
     includeClientInfo: true
     includeHeaders: false
     includeQueryString: true
     includePayload: true
-    maxPayloadLength: 10000
-
-
   logback:
     rollingpolicy:
       max-file-size: 1GB
