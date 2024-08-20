@@ -2,16 +2,20 @@
 FROM openjdk:17-jdk-slim
 
 # Update the package list and install necessary packages
-RUN apt-get update && apt-get install -y wget nano netplan.io
+RUN apt-get update && apt-get install -y wget iproute2
 
-# Create the /etc/netplan/ directory if it doesn't exist
-RUN mkdir -p /etc/netplan
+# Create a script to set up the IPv6 tunnel
+RUN echo "#!/bin/sh\n\
+ip tunnel add he-ipv6 mode sit remote 216.218.226.238 local 216.24.57.4 ttl 255\n\
+ip link set he-ipv6 up\n\
+ip addr add 2001:470:a:9f::2/64 dev he-ipv6\n\
+ip route add ::/0 dev he-ipv6 via 2001:470:a:9f::1" > /usr/local/bin/setup-tunnel.sh
 
-# Create the 99-he-tunnel.yaml file and add the tunnel configuration
-RUN echo "network:\n  version: 2\n  tunnels:\n    he-ipv6:\n      mode: sit\n      remote: 216.218.226.238\n      local: 216.24.57.4\n      addresses:\n        - \"2001:470:a:9f::2/64\"\n      routes:\n        - to: \"::/0\"\n          via: \"2001:470:a:9f::1\"" > /etc/netplan/99-he-tunnel.yaml
+# Make the script executable
+RUN chmod +x /usr/local/bin/setup-tunnel.sh
 
-# Apply the netplan configuration
-RUN netplan apply
+# Run the script to set up the tunnel
+RUN /usr/local/bin/setup-tunnel.sh
 
 # Set the working directory
 WORKDIR /opt/Lavalink
