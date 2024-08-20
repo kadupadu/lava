@@ -1,8 +1,8 @@
 # Use an OpenJDK 17 slim base image
 FROM openjdk:17-jdk-slim
 
+RUN apt-get update && apt-get install -y wget
 WORKDIR /opt/Lavalink
-
 # Install wget to download Lavalink.jar
 RUN wget https://github.com/lavalink-devs/Lavalink/releases/download/4.0.7/Lavalink.jar -O Lavalink.jar
 
