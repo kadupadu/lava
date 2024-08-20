@@ -1,8 +1,8 @@
 # Use an OpenJDK 17 slim base image
 FROM openjdk:17-jdk-slim
 
-# Update the package list and install wget and nano
-RUN apt-get update && apt-get install -y wget nano
+# Update the package list and install necessary packages
+RUN apt-get update && apt-get install -y wget nano netplan.io
 
 # Create the /etc/netplan/ directory if it doesn't exist
 RUN mkdir -p /etc/netplan
